@@ -1,5 +1,11 @@
+from .activity import Activity, ActivityCreate, ActivityInDB, ActivityUpdate
 from .item import Item, ItemCreate, ItemInDB, ItemUpdate
 from .msg import Msg
 from .token import Token, TokenPayload
 from .user import User, UserCreate, UserInDB, UserUpdate
-from .activity import Activity, ActivityCreate, ActivityInDB
+from .external_user import (
+    ExternalUser,
+    ExternalUserCreate,
+    ExternalUserInDB,
+    ExternalUserUpdate,
+)

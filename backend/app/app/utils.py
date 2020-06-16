@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import emails
+import requests
 from emails.template import JinjaTemplate
 from jose import jwt
 
@@ -103,4 +104,17 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
         return decoded_token["email"]
     except jwt.JWTError:
+        return None
+
+
+def verify_facebook_token(token: str) -> Optional[str]:
+    try:
+        url_fb = f"https://graph.facebook.com/me?access_token={token}"
+        r = requests.get(url_fb)
+        if r.status_code != 200:
+            return None
+        r = r.json()
+        return r['id']
+    except Exception as e:
+        print('Not able to reach facebook', e)
         return None

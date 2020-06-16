@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime, Boolean
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
@@ -38,5 +38,6 @@ class Activity(Base):
     device_watts = Column(Boolean)
     calories = Column(Float)
     device_name = Column(String)
+
 
 # TODO: lap and efforts

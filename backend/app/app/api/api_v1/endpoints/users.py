@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from app.api import deps
 from app.core.config import settings
-from app.utils import send_new_account_email
+from app.utils import send_new_account_email, verify_facebook_token
 
 router = APIRouter()
 
@@ -110,6 +110,73 @@ def create_user_open(
         )
     user_in = schemas.UserCreate(password=password, email=email, full_name=full_name)
     user = crud.user.create(db, obj_in=user_in)
+    return user
+
+
+@router.post("/external", response_model=schemas.User)
+def create_external_user_open(
+    *,
+    db: Session = Depends(deps.get_db),
+    external_user_id: str = Body(...),
+    external_source: str = Body(...),
+    full_name: str = Body(...),
+    token: str = Body(...),
+    email: EmailStr = Body(None),
+) -> Any:
+    """
+    Create new user without the need to be logged in va facebook.
+    """
+    if not settings.USERS_OPEN_REGISTRATION:
+        raise HTTPException(
+            status_code=403,
+            detail="Open user registration is forbidden on this server",
+        )
+
+    if external_source == 'facebook':
+        external_user_id_from_token = verify_facebook_token(token)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="External token source unknown",
+        )
+
+    if not external_user_id_from_token:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate external credentials",
+        )
+
+    if external_user_id_from_token != external_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate facebook credentials - id's do not match",
+        )
+
+    user = crud.user.get_by_email(db, email=email)
+    if user:
+        return user
+        # multiple signins happen with facebook..
+        # raise HTTPException(
+        #     status_code=400,
+        #     detail="The user with this email already exists in the system",
+        # )
+
+    # TODO: changethis
+    user_in = schemas.UserCreate(
+        password="changethis", email=email, full_name=full_name
+    )
+    user = crud.user.create(db, obj_in=user_in)
+
+    external_user_in = schemas.ExternalUserCreate(
+        external_user_id=external_user_id,
+        external_source=external_source,
+        full_name=full_name,
+        owner_id=user.id,
+        external_user_access_token=token,
+    )
+
+    crud.external_user.create(db, obj_in=external_user_in)
+
     return user
 
 

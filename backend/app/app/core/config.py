@@ -3,6 +3,8 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
 
+# https://pydantic-docs.helpmanual.io/usage/settings/
+
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
@@ -80,7 +82,11 @@ class Settings(BaseSettings):
     EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
-    USERS_OPEN_REGISTRATION: bool = False
+    USERS_OPEN_REGISTRATION: bool = True
+
+    STRAVA_CLIENT_ID: int
+    STRAVA_CLIENT_SECRET: str
+    STRAVA_WEBHOOK_VERIFY_TOKEN: str
 
     class Config:
         case_sensitive = True

@@ -5,11 +5,11 @@ from pydantic import BaseModel
 
 
 # Shared properties
-class ActivityBase(BaseModel):
-    external_id: Optional[str]
+class Activity(BaseModel):
+    id: int
     name: Optional[str] = None
     description: Optional[str] = None
-    activity_type: Optional[str] = None
+    type: Optional[str] = None
     distance: Optional[float] = None
     moving_time: Optional[int]
     elapsed_time: Optional[int]
@@ -31,31 +31,3 @@ class ActivityBase(BaseModel):
     device_watts: Optional[bool] = False
     calories: Optional[float] = None
     device_name: Optional[str] = None
-
-
-# Properties to receive on item creation
-class ActivityCreate(ActivityBase):
-    name: str
-    distance: float
-    owner_id: int
-
-
-# Properties to receive on item update
-class ActivityUpdate(ActivityBase):
-    pass
-
-
-class ActivityInDBBase(ActivityBase):
-    id: int
-    owner_id: int
-
-    class Config:
-        orm_mode = True
-
-
-class Activity(ActivityInDBBase):
-    pass
-
-
-class ActivityInDB(ActivityInDBBase):
-    pass

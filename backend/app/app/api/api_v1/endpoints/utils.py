@@ -8,6 +8,7 @@ from app.api import deps
 from app.core.celery_app import celery_app
 from app.utils import send_test_email
 
+
 router = APIRouter()
 
 
@@ -20,6 +21,19 @@ def test_celery(
     Test Celery worker.
     """
     celery_app.send_task("app.worker.test_celery", args=[msg.msg])
+    return {"msg": "Word received"}
+
+
+@router.post("/test-celery-db/", response_model=schemas.Msg, status_code=201)
+def test_celery_db(
+    msg: schemas.Msg,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Any:
+    """
+    Test Celery worker.
+    """
+    celery_app.send_task("app.worker.test_celery_database", args=[msg.msg])
+
     return {"msg": "Word received"}
 
 
