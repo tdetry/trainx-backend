@@ -16,8 +16,6 @@ router = APIRouter()
 
 
 def register_and_download_activity_history(db: Session, user: schemas.User, code: str):
-    print('START REGISTRATION BACKGROUND TASK STRAVA')
-
     client = AthleteClient()
     token = client.exchange_code_access_token(code)
 
@@ -43,8 +41,6 @@ def register_and_download_activity_history(db: Session, user: schemas.User, code
     ]
 
     crud.activity.create_all(db=db, objs_in=activities)
-
-    print('END BACKGROUND TASK STRAVA')
 
 
 def query_and_add_activity_db(db: Session, owner_id: int, activity_id: int):
