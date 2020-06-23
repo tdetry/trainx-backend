@@ -128,11 +128,11 @@ workflows:
           tag: ${CIRCLE_SHA1}
           # Uncomment if the repository does not yet exist
           # create-repo: true
-      # - aws-eks/create-cluster:
-      #     cluster-name: ks-dev
-      #     aws-region: $AWS_DEFAULT_REGION
-      #     requires:
-      #       - build-and-push-image
+      - aws-eks/create-cluster:
+          cluster-name: eks-trainx-dev
+          aws-region: $AWS_DEFAULT_REGION
+          requires:
+            - build-and-push-image
       - deploy-application:
           cluster-name: ks-dev
           aws-region: $AWS_DEFAULT_REGION
