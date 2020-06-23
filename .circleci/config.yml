@@ -1,9 +1,11 @@
 version: 2.1
 
+# https://github.com/CircleCI-Public/circleci-demo-aws-eks/blob/master/.circleci/config.yml
+
 orbs:
   aws-ecr: circleci/aws-ecr@6.7.0
   aws-eks: circleci/aws-eks@0.2.0
-
+  kubernetes: circleci/kubernetes@0.3.0  
 
 jobs:
   create-deployment:
