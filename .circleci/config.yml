@@ -48,7 +48,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/k8s-deployment.yml"
           get-rollout-status: true
-          resource-name: deployment/backend-deployment
+          #resource-name: deployment/backend-deployment
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/k8s-service.yml"
   test-application:
