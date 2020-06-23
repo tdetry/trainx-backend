@@ -1,0 +1,37 @@
+# kubectl create secret generic backend-secret --from-file='.env'
+# kubectl create configmap environ --from-env-file=.env
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: DOCKER_IMAGE_NAME
+        # imagePullPolicy: Never
+        # envFrom:
+        #   - configMapRef:
+        #       name: environ
+        env:
+        - name:  SERVER_NAME
+          value: 'localhost'
+        - name:  SERVER_HOST
+          value: 'http://localhost'
+        - name: VERSION_INFO
+          value: "VERSION_INFO_VALUE"
+        - name: BUILD_DATE
+          value: "BUILD_DATE_VALUE"
+      ports:
+      - containerPort: 8080
