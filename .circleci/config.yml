@@ -123,7 +123,7 @@ workflows:
           account-url: AWS_ECR_URL
           region: AWS_DEFAULT_REGION
           repo: trainx-dev
-          dockerfile: ~/backend/backend.dockerfile
+          dockerfile: backend/backend.dockerfile
           # path: ~/project/demo_app
           tag: ${CIRCLE_SHA1}
           # Uncomment if the repository does not yet exist
