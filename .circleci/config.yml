@@ -49,4 +49,4 @@ workflows:
           cluster-name: ks-dev
           resource-name: backend-deployment
           requires:
-            - aws-eks/create-cluster
+            - aws-ecr/build-and-push-image
