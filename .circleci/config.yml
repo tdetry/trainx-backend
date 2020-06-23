@@ -139,7 +139,7 @@ workflows:
           docker-image-name: "${AWS_ECR_URL}/trainx-dev:${CIRCLE_SHA1}"
           version-info: "${CIRCLE_SHA1}"
           requires:
-            - build_and_push_image
+            - aws-ecr/build_and_push_image
       # - test-application:
       #     name: test-application
       #     cluster-name: eks-orb-demo-app-deployment
