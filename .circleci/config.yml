@@ -48,7 +48,8 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/k8s-deployment.yml"
           get-rollout-status: true
-          #resource-name: deployment/backend-deployment
+          resource-name: deployment/backend-deployment
+          show-kubectl-command: true
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/k8s-service.yml"
   test-application:
@@ -118,14 +119,14 @@ jobs:
 workflows:
   deployment:
     jobs:
-      - aws-ecr/build_and_push_image:
-          name: build-and-push-image
-          account-url: AWS_ECR_URL
-          region: AWS_DEFAULT_REGION
-          repo: trainx-dev
-          dockerfile: backend/backend.dockerfile
-          # path: ~/project/demo_app
-          tag: ${CIRCLE_SHA1}
+      # - aws-ecr/build_and_push_image:
+      #     name: build-and-push-image
+      #     account-url: AWS_ECR_URL
+      #     region: AWS_DEFAULT_REGION
+      #     repo: trainx-dev
+      #     dockerfile: backend/backend.dockerfile
+      #     # path: ~/project/demo_app
+      #     tag: ${CIRCLE_SHA1}
           # Uncomment if the repository does not yet exist
           # create-repo: true
       # - aws-eks/create-cluster:
@@ -137,10 +138,10 @@ workflows:
       - deploy-application:
           cluster-name: eks-trainx-dev
           aws-region: $AWS_DEFAULT_REGION
-          docker-image-name: "${AWS_ECR_URL}/trainx-dev:${CIRCLE_SHA1}"
-          version-info: "${CIRCLE_SHA1}"
-          requires:
-            - build-and-push-image
+          docker-image-name: "${AWS_ECR_URL}/trainx-dev:ba2fc91dac228c3f7407a4753386976fb3fb1db4" # ${CIRCLE_SHA1}"
+          version-info: ba2fc91dac228c3f7407a4753386976fb3fb1db4 # "${CIRCLE_SHA1}"
+          # requires:
+          #   - build-and-push-image
       # - test-application:
       #     name: test-application
       #     cluster-name: eks-orb-demo-app-deployment
