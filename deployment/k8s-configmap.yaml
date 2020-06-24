@@ -1,58 +1,24 @@
-# TODO: encrypt
 apiVersion: v1
-data:
-  .env: |-
-    DOMAIN=localhost
-    # DOMAIN=local.dockertoolbox.tiangolo.com
-    # DOMAIN=localhost.tiangolo.com
-    # DOMAIN=dev.trainx-backend.com
-
-    STACK_NAME=trainx-backend-com
-
-    TRAEFIK_PUBLIC_NETWORK=traefik-public
-    TRAEFIK_TAG=trainx-backend.com
-    TRAEFIK_PUBLIC_TAG=traefik-public
-
-    DOCKER_IMAGE_BACKEND=backend
-    DOCKER_IMAGE_CELERYWORKER=celeryworker
-    DOCKER_IMAGE_FRONTEND=frontend
-
-    # Backend
-    BACKEND_CORS_ORIGINS=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.trainx-backend.com", "https://stag.trainx-backend.com", "https://trainx-backend.com", "http://local.dockertoolbox.tiangolo.com", "http://localhost.tiangolo.com"]
-    PROJECT_NAME=trainx-backend
-    SECRET_KEY=changethis
-    FIRST_SUPERUSER=admin@trainx-backend.com
-    FIRST_SUPERUSER_PASSWORD=changethis
-    SMTP_TLS=True
-    SMTP_PORT=587
-    SMTP_HOST=
-    SMTP_USER=
-    SMTP_PASSWORD=
-    EMAILS_FROM_EMAIL=info@trainx-backend.com
-
-    USERS_OPEN_REGISTRATION=True
-
-    SENTRY_DSN=
-
-    # Flower
-    FLOWER_BASIC_AUTH=admin:changethis
-
-    # Postgres
-    POSTGRES_SERVER=dev-database.ctstu40cqil2.us-east-2.rds.amazonaws.com
-    POSTGRES_USER=postgres
-    POSTGRES_PASSWORD=changethis
-    POSTGRES_DB=postgres
-
-    # PgAdmin
-    PGADMIN_LISTEN_PORT=5050
-    PGADMIN_DEFAULT_EMAIL=admin@trainx-backend.com
-    PGADMIN_DEFAULT_PASSWORD=changethis
-
-    # Strava
-    STRAVA_CLIENT_ID=49328
-    STRAVA_CLIENT_SECRET=b20d6d5ee200036f6ca331d3bd12cd2a9d31fb6b
-    STRAVA_WEBHOOK_VERIFY_TOKEN=f7be6480-05bc-45c1-9e00-d24a926ea1e5
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
   name: environ
+
+data:
+  # Backend
+  PROJECT_NAME: trainx-backend
+  FIRST_SUPERUSER: admin@trainx-backend.com
+  FIRST_SUPERUSER_PASSWORD: changethis
+  USERS_OPEN_REGISTRATION: 'True'
+  SENTRY_DSN: ''
+
+  # Postgres
+  POSTGRES_SERVER: 'dev-database.ctstu40cqil2.us-east-2.rds.amazonaws.com'
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: changethis
+  POSTGRES_DB: postgres
+
+  # Strava
+  STRAVA_CLIENT_ID: '49328'
+  STRAVA_CLIENT_SECRET: b20d6d5ee200036f6ca331d3bd12cd2a9d31fb6b
+  STRAVA_WEBHOOK_VERIFY_TOKEN: 'f7be6480-05bc-45c1-9e00-d24a926ea1e5'
+

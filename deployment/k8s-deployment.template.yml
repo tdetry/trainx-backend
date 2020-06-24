@@ -15,7 +15,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend-container
+      - name: backend
         image: DOCKER_IMAGE_NAME
         # imagePullPolicy: Never
         envFrom:
@@ -31,8 +31,9 @@ spec:
         - name: BUILD_DATE
           value: "BUILD_DATE_VALUE"
         ports:
-        - containerPort: 8080
+        - containerPort: 80
 
 # kubectl create secret generic backend-secret --from-file='.env'
 # kubectl create configmap environ --from-env-file=.env
 # kubectl create configmap --dry-run environ --from-file=.env --output yaml | tee somename.yaml
+# kubectl exec --stdin --tty backend-deployment-c4759d466-ns2x9 -- /bin/bash
