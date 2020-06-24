@@ -37,10 +37,11 @@ jobs:
             # This is to avoid hardcoding the image name in the manifest, to make this
             # demo project more portable.
             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
-            cat deployment/k8s-deployment.yml |\
+            cat deployment/k8s-deployment.template.yml |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
                 << parameters.version-info >>|g" > deployment/k8s-deployment.yml
+            cat deployment/k8s-deployment.yml
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
           install-kubectl: true
@@ -134,7 +135,7 @@ workflows:
       #     aws-region: $AWS_DEFAULT_REGION
       #     requires:
       #       - build-and-push-image
-      # NOTE: SAME  IAM USER TO CREATE AND RUN OPERATION KUBECTL
+      # NOTE: SAME IAM USER TO CREATE AND RUN OPERATION KUBECTL
       - deploy-application:
           cluster-name: eks-trainx-dev
           aws-region: $AWS_DEFAULT_REGION
