@@ -41,11 +41,12 @@ jobs:
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
                 << parameters.version-info >>|g" > deployment/k8s-deployment.yml
-            cat deployment/k8s-deployment.yml
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
           install-kubectl: true
           aws-region: << parameters.aws-region >>
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "deployment/k8s-configmap.yaml"
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/k8s-deployment.yml"
           get-rollout-status: true

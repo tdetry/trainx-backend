@@ -18,9 +18,9 @@ spec:
       - name: backend-container
         image: DOCKER_IMAGE_NAME
         # imagePullPolicy: Never
-        # envFrom:
-        #   - configMapRef:
-        #       name: environ
+        envFrom:
+          - configMapRef:
+              name: environ
         env:
         - name:  SERVER_NAME
           value: 'localhost'
@@ -35,3 +35,4 @@ spec:
 
 # kubectl create secret generic backend-secret --from-file='.env'
 # kubectl create configmap environ --from-env-file=.env
+# kubectl create configmap --dry-run environ --from-file=.env --output yaml | tee somename.yaml
