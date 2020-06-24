@@ -30,8 +30,8 @@ spec:
           value: "VERSION_INFO_VALUE"
         - name: BUILD_DATE
           value: "BUILD_DATE_VALUE"
-      ports:
-      - containerPort: 8080
+        ports:
+        - containerPort: 8080
 
 # kubectl create secret generic backend-secret --from-file='.env'
 # kubectl create configmap environ --from-env-file=.env
